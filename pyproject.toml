@@ -1,0 +1,13 @@
+[project]
+name = "sendero-catequesis"
+version = "0.1.0"
+description = "Seguimiento local de catequesis para Noris"
+requires-python = ">=3.11"
+dependencies = ["flask>=3.1,<4"]
+
+[dependency-groups]
+dev = ["pytest>=8,<10"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
