@@ -1,0 +1,86 @@
+[
+  {
+    "case": "sin_clases",
+    "seconds": 41.87,
+    "valid": true,
+    "plan": {
+      "preparation": [
+        "Revisar las evidencias de los requisitos pendientes antes de marcarlos como cumplidos.",
+        "Preparar el registro de la primera clase y su asistencia.",
+        "Revisar con la catequista el registro de asistencia antes del próximo encuentro."
+      ],
+      "family_question": "¿Hay algo que debamos tener en cuenta para facilitar la asistencia a las clases?",
+      "pending_numbers": [
+        1
+      ],
+      "model": "qwen2.5-coder:3b",
+      "evidence": {
+        "etapa_ordinal": 1,
+        "requisitos": [
+          {
+            "numero": 1,
+            "cumplido": false
+          }
+        ],
+        "clases_registradas": 0,
+        "asistencias": 0,
+        "hay_siguiente_etapa": true
+      }
+    }
+  },
+  {
+    "case": "pendientes",
+    "seconds": 4.78,
+    "valid": true,
+    "plan": {
+      "preparation": [
+        "Revisar con la catequista el registro de asistencia antes del próximo encuentro.",
+        "Revisar las evidencias de los requisitos pendientes antes de marcarlos como cumplidos."
+      ],
+      "family_question": "¿Hay algo que debamos tener en cuenta para facilitar la asistencia a las clases?",
+      "pending_numbers": [
+        1
+      ],
+      "model": "qwen2.5-coder:3b",
+      "evidence": {
+        "etapa_ordinal": 1,
+        "requisitos": [
+          {
+            "numero": 1,
+            "cumplido": false
+          }
+        ],
+        "clases_registradas": 2,
+        "asistencias": 1,
+        "hay_siguiente_etapa": true
+      }
+    }
+  },
+  {
+    "case": "completos",
+    "seconds": 3.61,
+    "valid": true,
+    "plan": {
+      "preparation": [
+        "Revisar con la catequista el registro de asistencia antes del próximo encuentro.",
+        "Preparar una pregunta para conversar con el responsable sobre el acompañamiento.",
+        "Revisar con el responsable si necesita apoyo para la asistencia a las clases."
+      ],
+      "family_question": "¿Hay algo que debamos tener en cuenta para facilitar la asistencia a las clases?",
+      "pending_numbers": [],
+      "model": "qwen2.5-coder:3b",
+      "evidence": {
+        "etapa_ordinal": 1,
+        "requisitos": [
+          {
+            "numero": 1,
+            "cumplido": true
+          }
+        ],
+        "clases_registradas": 2,
+        "asistencias": 1,
+        "hay_siguiente_etapa": true
+      }
+    }
+  }
+]
