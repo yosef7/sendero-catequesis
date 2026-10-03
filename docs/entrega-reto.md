@@ -16,7 +16,11 @@ Ventana en Panamá: jueves 1 de octubre de 2026, 9:00 p. m., hasta lunes 5 de oc
 
 ## Publicación
 
-El repositorio se prepara privado para revisión. El artículo se guarda como borrador; sus enlaces al código y demo apuntan al destino previsto y quedarán accesibles públicamente al cambiar la visibilidad del repositorio. El cambio de visibilidad y la publicación del artículo se verifican antes de marcar la entrega completa.
+El repositorio [yosef7/sendero-catequesis](https://github.com/yosef7/sendero-catequesis) fue creado **privado** y sus dos commits iniciales se enviaron a `origin/main`: `259c12c` (aplicación) y `84ae89b` (demo y presentación). La visibilidad privada y el MP4 remoto de 901.956 bytes se verificaron mediante GitHub.
+
+El artículo DEV **4793109** está guardado como borrador y se confirmó en la lista de artículos no publicados del usuario `arnulfo_07`, con las tres etiquetas requeridas. La asistencia de IA está declarada en el texto y se envió con el valor predeterminado `some_ai` de DevRelay. No se publicó.
+
+Los enlaces del artículo apuntan al destino previsto; sus enlaces al código y demo apuntan al destino previsto y quedarán accesibles públicamente al cambiar la visibilidad del repositorio. El cambio de visibilidad y la publicación del artículo se verifican antes de marcar la entrega completa.
 
 La elegibilidad personal no se ha certificado: el participante debe cumplir las condiciones oficiales. Los jueces deciden la validez de la entrega. Tampoco se ha documentado aún una prueba con Noris: su reacción no se inventa en el artículo.
 
