@@ -9,3 +9,6 @@ artifacts/
 
 # Obra con derechos de autor: no publicar
 docs/DIRECTORIO-PARA-LA-CATEQUESIS-2022.*
+
+# Notas privadas del equipo: entrega al reto, operación local
+privado/

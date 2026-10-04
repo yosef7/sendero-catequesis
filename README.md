@@ -8,14 +8,7 @@ Requisitos: Python 3.11 o superior y [uv](https://docs.astral.sh/uv/). Ollama es
 
 ### 1. Abrir el proyecto e instalar las dependencias
 
-Si ya tienes el proyecto en este equipo:
-
-```sh
-cd /Users/arnulforeyes/Documents/GitHub/sendero-catequesis
-uv sync
-```
-
-Para instalarlo en otro equipo con acceso al repositorio:
+Clona el repositorio e instala las dependencias:
 
 ```sh
 git clone https://github.com/yosef7/sendero-catequesis.git
@@ -23,7 +16,7 @@ cd sendero-catequesis
 uv sync
 ```
 
-Mientras el repositorio sea privado, clonarlo requiere acceso autorizado a GitHub. `uv sync` prepara el entorno virtual y las dependencias; no hace falta activar `.venv` para los comandos siguientes.
+`uv sync` prepara el entorno virtual y las dependencias; no hace falta activar `.venv` para los comandos siguientes.
 
 ### 2. Iniciar Sendero
 
@@ -128,15 +121,15 @@ git diff --check
 
 ## Reto DEV
 
-Proyecto nuevo para [Hacktoberfest Weekend Challenge: Build for a Friend](https://dev.to/challenges/hacktoberfest-weekend-2026-10-01) (reto 78 de DEV). La entrega cierra el **lunes 5 de octubre de 2026 a la 1:59 a. m. (Panamá)**, es decir, el 5 oct a las 6:59 UTC.
+Sendero se creó para el [Hacktoberfest Weekend Challenge: Build for a Friend](https://dev.to/challenges/hacktoberfest-weekend-2026-10-01) de DEV.
 
-**Entregado el 4 de octubre de 2026 a las 9:51 a. m. (Panamá):** el [artículo en DEV](https://dev.to/arnulfo_07/sendero-helping-noris-prepare-each-childs-next-step-with-local-open-ai-4gl3) está publicado con la etiqueta obligatoria `#hf26challenge` y este repositorio es público. Confirmar las etapas con el equipo de catequesis y probar el recorrido con sus integrantes siguen pendientes; el artículo no les atribuye ninguna valoración. Crear el proyecto local o guardar un borrador no constituye una entrega al concurso. El detalle está en el [estado de entrega](docs/entrega-reto.md).
+El [artículo en DEV](https://dev.to/arnulfo_07/sendero-helping-noris-prepare-each-childs-next-step-with-local-open-ai-4gl3) explica el proyecto y sus decisiones de diseño. Confirmar las etapas con el equipo de catequesis y probar el recorrido con sus integrantes siguen pendientes.
 
 Código asistido por IA. Licencia MIT; Flask y Ollama conservan sus licencias. Consulta [arquitectura y referencias](docs/arquitectura.md).
 
-## Material para la presentación
+## Demo
 
-La [demo grabada](demo/README.md) usa datos ficticios. El [artículo preparado](docs/dev-submission.md) y el [estado de entrega](docs/entrega-reto.md) distinguen la preparación de la publicación efectiva.
+La [demo grabada](demo/README.md) usa datos ficticios.
 
 ## Continuidad
 
