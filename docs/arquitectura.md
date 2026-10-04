@@ -2,7 +2,7 @@
 
 ```mermaid
 flowchart LR
-    N[Noris · navegador] --> UI[Interfaz en español]
+    N[Equipo de catequesis · navegador] --> UI[Interfaz en español]
     UI --> API[API Flask · sesión y CSRF]
     API --> S[Servicios · reglas del recorrido]
     S --> DB[(SQLite local)]
@@ -16,7 +16,7 @@ SQLite con claves foráneas, WAL y conexiones por solicitud simplifica la operac
 
 El acceso usa un código aleatorio privado persistido con permisos 0600, cookie HttpOnly/SameSite Strict, token CSRF, lista de hosts y sesión de ocho horas. El proceso se enlaza solamente a loopback. No hay usuarios individuales ni límite de intentos; no es un servicio listo para internet.
 
-La IA no tiene herramientas de escritura. Un contexto numérico evita introducir datos identificadores o instrucciones en texto libre en el modelo. Resume información registrada; Noris toma las decisiones. Las propuestas se guardan con una copia del contexto y se marcan como desactualizadas si el progreso cambia. La salida JSON se valida antes de guardar; una respuesta mal formada produce un error y no inserta una propuesta. Esa validación no demuestra corrección semántica: la catequista revisa el texto.
+La IA no tiene herramientas de escritura. Un contexto numérico evita introducir datos identificadores o instrucciones en texto libre en el modelo. Resume información registrada; el equipo de catequesis toma las decisiones. Las propuestas se guardan con una copia del contexto y se marcan como desactualizadas si el progreso cambia. La salida JSON se valida antes de guardar; una respuesta mal formada produce un error y no inserta una propuesta. Esa validación no demuestra corrección semántica: el equipo de catequesis revisa el texto.
 
 ## Fuentes
 
@@ -34,7 +34,7 @@ La búsqueda semántica de DevRelay devolvió pocos resultados relevantes para F
 
 Ambos artículos se leyeron con DevRelay. No tenían comentarios al consultarlos; son dos referencias, no un consenso de la comunidad.
 
-El generador final usa `enum` para acciones y preguntas: el modelo selecciona y prioriza dentro de un catálogo revisado. La primera prueba de redacción libre produjo referencias no sustentadas a clases y una pregunta con perspectiva incorrecta; por eso se restringió la salida. Se validan pertenencia al catálogo y ausencia de acciones duplicadas. El modelo puede elegir prioridades poco útiles incluso dentro de ese catálogo; Noris las revisa. No se oculta una lista determinista detrás de una generación simulada: una propuesta solo se guarda después de una respuesta real válida de Ollama.
+El generador final usa `enum` para acciones y preguntas: el modelo selecciona y prioriza dentro de un catálogo revisado. La primera prueba de redacción libre produjo referencias no sustentadas a clases y una pregunta con perspectiva incorrecta; por eso se restringió la salida. Se validan pertenencia al catálogo y ausencia de acciones duplicadas. El modelo puede elegir prioridades poco útiles incluso dentro de ese catálogo; el equipo de catequesis las revisa. No se oculta una lista determinista detrás de una generación simulada: una propuesta solo se guarda después de una respuesta real válida de Ollama.
 
 ## Ampliación de la versión funcional
 
@@ -47,7 +47,7 @@ Las propuestas tienen `reviewed_at`. La API comprueba que pertenezcan al partici
 Referencias consultadas en esta ampliación:
 
 - [Salida estructurada oficial de Ollama](https://docs.ollama.com/capabilities/structured-outputs): JSON Schema en `format` y validación posterior. Se conservó un esquema pequeño y catálogo propio.
-- [Jangwook Kim: Ollama Structured Outputs in Practice](https://dev.to/jangwook_kim_e31e7291ad98/ollama-structured-outputs-in-practice-getting-type-safe-json-from-local-llms-with-pydantic-m38): experiencia práctica con esquemas y límites de modelos pequeños; sin comentarios al consultar. No se extrapolan sus tiempos al equipo de Noris.
+- [Jangwook Kim: Ollama Structured Outputs in Practice](https://dev.to/jangwook_kim_e31e7291ad98/ollama-structured-outputs-in-practice-getting-type-safe-json-from-local-llms-with-pydantic-m38): experiencia práctica con esquemas y límites de modelos pequeños; sin comentarios al consultar. No se extrapolan sus tiempos al equipo de la capilla.
 - [Jonathan: Your Local LLM Is Not as Private as You Think](https://dev.to/jfisher4002/your-local-llm-is-not-as-private-as-you-think-3ek7): operar localmente no elimina los riesgos del servidor y cargador de modelos. Sus comentarios refuerzan la diferencia entre loopback y un servicio compartido. Se conserva el enlace solo a loopback y se minimiza el contexto; no se declara una auditoría de Ollama.
 
 Son dos experiencias consultadas, no una muestra suficiente para inferir consenso.

@@ -1,4 +1,4 @@
-"""Servidor reproducible para grabar la demo, aislado del registro de Noris."""
+"""Servidor reproducible para grabar la demo, aislado del registro real de la capilla."""
 from pathlib import Path
 import argparse
 from sendero import create_app

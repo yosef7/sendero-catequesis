@@ -42,7 +42,7 @@
       "horizontal_overflow": false
     }
   ],
-  "real_ollama_seconds": 3.34,
+  "real_ollama_seconds": 17.79,
   "model": "qwen2.5-coder:3b",
   "workflow": "login → período → grupo → participante y dos responsables → asistencia y tema → observación → IA → revisión → recarga → edición móvil",
   "fictional_data": true

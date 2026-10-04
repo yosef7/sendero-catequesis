@@ -4,7 +4,8 @@ Guarda imágenes y video ficticios en demo/ y artifacts/v1/.
 """
 from playwright.sync_api import sync_playwright
 from pathlib import Path
-import json,time
+import json,os,time
+BASE=os.environ.get('SENDERO_DEMO_URL','http://127.0.0.1:5083')
 root=Path(__file__).resolve().parents[1]
 out=root/'artifacts/v1';out.mkdir(parents=True,exist_ok=True)
 errors=[]
@@ -12,7 +13,7 @@ with sync_playwright() as p:
     browser=p.chromium.launch(headless=True)
     context=browser.new_context(viewport={'width':1280,'height':800},record_video_dir=str(out),record_video_size={'width':1280,'height':800})
     page=context.new_page();page.on('pageerror',lambda error:errors.append(str(error)))
-    page.goto('http://127.0.0.1:5083');page.locator('input[name=code]').fill('demo-ficticia');page.get_by_role('button',name='Entrar',exact=False).click()
+    page.goto(BASE);page.locator('input[name=code]').fill('demo-ficticia');page.get_by_role('button',name='Entrar',exact=False).click()
     page.locator('#nav-groups').click();page.get_by_role('button',name='Crear período',exact=True).click()
     page.locator('[name=name]').fill('Formación 2026 · Ejemplo');page.locator('[name=starts]').fill('2026-01-01');page.locator('[name=ends]').fill('2026-12-31');page.locator('[type=submit]').click();page.wait_for_timeout(1500)
     page.get_by_role('button',name='Añadir grupo').click();page.locator('[name=name]').fill('Sábados · Grupo ficticio');page.locator('[type=submit]').click();page.wait_for_timeout(1500)
@@ -25,7 +26,7 @@ with sync_playwright() as p:
     page.locator('#attendance').click();page.locator('[name=topic]').fill('La acogida y la comunidad · ejemplo');page.locator('[name=enrollment_id]').select_option(index=1);page.locator('[type=submit]').click();page.wait_for_timeout(1500)
     page.locator('#note').click();page.locator('[name=note]').fill('Observación ficticia para revisar en el próximo encuentro.');page.locator('[type=submit]').click();page.wait_for_timeout(1500)
     page.locator('#generate-plan').click();start=time.monotonic();page.locator('#review-plan').wait_for(timeout=150000);duration=time.monotonic()-start
-    page.locator('#review-plan').click();page.get_by_text('✓ Revisada por Noris',exact=False).wait_for();page.wait_for_timeout(1500)
+    page.locator('#review-plan').click();page.get_by_text('✓ Revisada por el equipo de catequesis',exact=False).wait_for();page.wait_for_timeout(1500)
     page.wait_for_timeout(4000)
     page.screenshot(path=str(root/'demo/ai-plan.png'),full_page=True)
     page.reload();page.get_by_role('heading',name='Un camino que crece contigo.').wait_for();page.locator('[data-child]').click();page.get_by_text('Ana Ejemplo · Madre',exact=False).wait_for();page.get_by_text('Luis Ejemplo · Padre',exact=False).wait_for()
@@ -34,7 +35,7 @@ with sync_playwright() as p:
     page.screenshot(path=str(root/'demo/recorrido.png'),full_page=True)
     # Check dialogs, all three views and actual mobile edits at two narrow widths.
     context2=browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
-    context2.add_cookies(context.cookies());mobile=context2.new_page();mobile.on('pageerror',lambda error:errors.append(str(error)));mobile.goto('http://127.0.0.1:5083');mobile.locator('[data-child]').click();mobile.locator('#edit').click()
+    context2.add_cookies(context.cookies());mobile=context2.new_page();mobile.on('pageerror',lambda error:errors.append(str(error)));mobile.goto(BASE);mobile.locator('[data-child]').click();mobile.locator('#edit').click()
     mobile.locator('[name=contact_0]').fill('555-0199');mobile.locator('[type=submit]').click();mobile.get_by_text('555-0199',exact=False).wait_for();mobile.wait_for_timeout(5200);mobile.screenshot(path=str(root/'demo/movil.png'),full_page=True)
     checks=[]
     for width in (390,320):

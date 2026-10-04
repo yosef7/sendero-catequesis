@@ -14,7 +14,7 @@ Ventana en Panamá: jueves 1 de octubre de 2026, 9:00 p. m., hasta lunes 5 de oc
 | Repositorio remoto | ✅ **Público**; código, video, capturas y JSON enlazados en el artículo responden sin iniciar sesión | `gh repo view` y `curl` a cada enlace |
 | Artículo DEV 4793109 | ✅ Publicado con `devchallenge`, `weekendchallenge` y `hf26challenge`; texto igual a [`dev-submission.md`](dev-submission.md) | `get_article_by_path` de DevRelay |
 | Reto 78 | Abierto hasta el **lun 5 oct, 1:59 a. m. (Panamá)** | `get_challenge_details` de DevRelay |
-| Prueba con Noris | ⏳ Sin realizar | — |
+| Prueba con el equipo de catequesis | ⏳ Sin realizar | — |
 
 > [!WARNING]
 > **No incluir el Directorio en el repositorio público.** `docs/DIRECTORIO-PARA-LA-CATEQUESIS-2022.pdf` y su transcripción `.md` reproducen una obra publicada con derechos de autor. Quedaron fuera de los commits del 4 oct y ahora están en `.gitignore`, así que un `git add .` futuro no los publica.
@@ -31,9 +31,9 @@ Fuente: `full_details` del reto 78 en DevRelay.
 
 ## Material preparado
 
-- Proyecto nuevo: registro local de formación para Noris.
+- Proyecto nuevo: registro local de formación para la comunidad de la Capilla Nuestra Señora de Lourdes (Valle de Urraca, San Miguelito).
 - IA abierta: inferencia local de pesos abiertos con Ollama, selección y priorización de preparación en un catálogo revisado, guardado del contexto y detección de desactualización.
-- Video local actualizado: `demo/sendero-demo.mp4`, 33,24 s, con datos ficticios; incluye períodos, grupos, dos responsables y revisión humana de IA.
+- Video actualizado: `demo/sendero-demo.mp4`, 49 s (regrabado el 4 oct con la interfaz de la comunidad), con datos ficticios; incluye períodos, grupos, dos responsables y revisión humana de IA.
 - Código: preparado para `yosef7/sendero-catequesis`, licencia MIT. El modelo conserva su licencia `qwen-research`.
 - Artículo en inglés: `docs/dev-submission.md`, plantilla oficial, etiquetas `devchallenge`, `weekendchallenge`, `hf26challenge`, asistencia de IA declarada.
 - Sin categorías de patrocinadores: no se atribuye uso de herramientas que no participaron en la construcción.
@@ -47,7 +47,7 @@ El repositorio [yosef7/sendero-catequesis](https://github.com/yosef7/sendero-cat
 
 Los enlaces del artículo apuntan al destino previsto; sus enlaces al código y demo apuntan al destino previsto y quedarán accesibles públicamente al cambiar la visibilidad del repositorio. El cambio de visibilidad y la publicación del artículo se verifican antes de marcar la entrega completa.
 
-La elegibilidad personal no se ha certificado: el participante debe cumplir las condiciones oficiales. Los jueces deciden la validez de la entrega. Tampoco se ha documentado aún una prueba con Noris: su reacción no se inventa en el artículo.
+La elegibilidad personal no se ha certificado: el participante debe cumplir las condiciones oficiales. Los jueces deciden la validez de la entrega. Tampoco se ha documentado aún una prueba con el equipo de catequesis: el artículo no inventa su valoración.
 
 ## Revisión antes de publicar
 
@@ -59,14 +59,14 @@ Plazo: **antes del lun 5 oct, 1:59 a. m. (Panamá)**. Cada paso depende del ante
 - [x] Hacer público el repositorio y comprobar que el código, el video y las capturas abren sin iniciar sesión. `✅ 4 oct`
 - [x] Publicar el artículo 4793109 con las tres etiquetas. `✅ 4 oct, 9:51 a. m.`
 - [x] Confirmar desde DEV la URL pública, el estado publicado, la hora y las etiquetas. `✅ 4 oct`
-- [x] Anotar la URL publicada en este archivo y en el libro de retos personales del repositorio Hacktoberfest (`docs/06-mlh/stickers-2026.md`). `✅ 4 oct`
+- [x] Anotar la URL publicada en este archivo y en el libro de retos personales del repositorio Hacktoberfest (`personal/retos-hacktoberfest-2026.md`, antes `docs/06-mlh/stickers-2026.md`). `✅ 4 oct`
 - [ ] Comprobar el sticker del Launch Weekend en [hacktoberfest.com/my](https://hacktoberfest.com/my).
 
 ## Actualización de la primera versión funcional · 3 de octubre
 
 Actualización del 4 oct: la ampliación se versionó y se envió a `origin/main` (`762acc3` y `8678396`); el remoto sigue privado. Texto original del 3 oct: la ampliación está **local, sin commit ni push**: requisitos, flujo con períodos/grupos, responsables múltiples, asistencia asociada, revisión humana de IA, 26 pruebas, video y capturas actualizados. El remoto sigue privado y conserva la versión inicial. Los enlaces remotos del artículo todavía requieren publicar estos cambios; el MP4 remoto verificado anteriormente no representa esta nueva grabación.
 
-La revisión en Chromium y móvil emulado concluyó; quedan teléfono físico y aceptación de Noris. Se actualiza el borrador DEV existente, no se crea una segunda entrada. El cambio de visibilidad y la publicación del artículo siguen pendientes. El reto 78 sigue abierto y cierra el 5 de octubre a la 1:59 a. m. de Panamá, según los detalles oficiales consultados en DevRelay durante esta ampliación.
+La revisión en Chromium y móvil emulado concluyó; quedan teléfono físico y aceptación del equipo de catequesis. Se actualiza el borrador DEV existente, no se crea una segunda entrada. El cambio de visibilidad y la publicación del artículo siguen pendientes. El reto 78 sigue abierto y cierra el 5 de octubre a la 1:59 a. m. de Panamá, según los detalles oficiales consultados en DevRelay durante esta ampliación.
 
 El servidor habitual `http://127.0.0.1:5081` ya carga la ampliación; su base se migró a versión 3 después de un respaldo privado, con preservación de los registros verificada. La demo aislada queda en `http://127.0.0.1:5083` con acceso `demo-ficticia`.
 

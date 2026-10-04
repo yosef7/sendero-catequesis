@@ -1,7 +1,7 @@
 [project]
 name = "sendero-catequesis"
 version = "0.1.0"
-description = "Seguimiento local de catequesis para Noris"
+description = "Seguimiento local de catequesis para la Capilla Nuestra Señora de Lourdes"
 requires-python = ">=3.11"
 dependencies = ["flask>=3.1,<4"]
 

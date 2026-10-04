@@ -189,7 +189,7 @@ def review_plan(child_id,plan_id):
             raise s.ValidationError('Genera una propuesta vigente antes de revisarla.')
         if not plan['reviewed_at']:
             db.execute('UPDATE plans SET reviewed_at=CURRENT_TIMESTAMP WHERE id=?',(plan_id,))
-            s.event(child_id,'Revisión IA','Noris revisó la propuesta de acompañamiento; no se modificaron requisitos ni etapas.')
+            s.event(child_id,'Revisión IA','El equipo de catequesis revisó la propuesta de acompañamiento; no se modificaron requisitos ni etapas.')
     return jsonify(s.detail(child_id))
 
 

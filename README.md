@@ -1,6 +1,6 @@
 # Sendero · Registro de catequesis
 
-Una herramienta creada para **Noris Hernández**: organiza períodos y grupos, registra participantes y responsables, su formación, los requisitos verificados y cada cambio de etapa. Interfaz en español, adaptable a teléfonos y computadoras, almacenamiento local e IA abierta mediante Ollama.
+Una herramienta para el equipo de catequesis de la comunidad de la **Capilla Nuestra Señora de Lourdes**, en Valle de Urraca, San Miguelito (Panamá): organiza períodos y grupos, registra participantes y responsables, su formación, los requisitos verificados y cada cambio de etapa. Interfaz en español, adaptable a teléfonos y computadoras, almacenamiento local e IA abierta mediante Ollama.
 
 ## Instalar e iniciar el proyecto
 
@@ -71,12 +71,12 @@ La primera vez, revisa **Etapas y requisitos**: los niveles iniciales son ejempl
 
 ## Uso diario
 
-1. Accede con el código privado de Noris.
+1. Accede con el código privado del equipo de catequesis.
 2. En **Períodos y grupos**, crea el período con inicio y cierre y añade sus grupos.
 3. En **Niños y formación**, registra el participante, fecha de ingreso, etapa, grupo y hasta cinco responsables con vínculo y contacto. Los contactos son opcionales.
 4. Abre la ficha y registra asistencia, tema y observaciones. Selecciona la inscripción para asociar la clase a su grupo y período.
 5. Consulta las inscripciones e historia en la ficha; filtra el listado por grupo. Una ficha puede conservar inscripciones en varios períodos sin duplicar al participante.
-6. Pulsa **Preparar acompañamiento** para obtener un resumen de cantidades, pendientes y acciones sugeridas. Noris puede **Marcar como revisada** una propuesta vigente; la revisión queda en el historial.
+6. Pulsa **Preparar acompañamiento** para obtener un resumen de cantidades, pendientes y acciones sugeridas. El equipo de catequesis puede **Marcar como revisada** una propuesta vigente; la revisión queda en el historial.
 7. Verifica los requisitos y confirma el avance cuando corresponda.
 8. Descarga un respaldo periódicamente. Archivar una ficha conserva su historia y permite reactivarla.
 
@@ -108,7 +108,7 @@ La IA abierta interviene en la preparación del seguimiento, sin depender de una
 - `sendero/static/`: interfaz, cliente API y estilos.
 - `tests/`: comprobaciones de integridad, acceso, historial y minimización del contexto de IA.
 
-Esta versión está pensada para una catequista en un equipo. La separación permite ampliar los módulos, pero no demuestra capacidad multiusuario ni carga alta. Para varias parroquias o acceso por internet: incorporar cuentas y roles, despliegue HTTPS, servidor de producción, migraciones incrementales y evaluar PostgreSQL. No exponer el servidor local en la red.
+Esta versión está pensada para un equipo de confianza con un código de acceso compartido; aún no hay cuentas individuales por catequista. La separación permite ampliar los módulos, pero no demuestra capacidad multiusuario ni carga alta. Para varias parroquias o acceso por internet: incorporar cuentas y roles, despliegue HTTPS, servidor de producción, migraciones incrementales y evaluar PostgreSQL. No exponer el servidor local en la red.
 
 ## Datos y respaldo
 
@@ -130,7 +130,7 @@ git diff --check
 
 Proyecto nuevo para [Hacktoberfest Weekend Challenge: Build for a Friend](https://dev.to/challenges/hacktoberfest-weekend-2026-10-01) (reto 78 de DEV). La entrega cierra el **lunes 5 de octubre de 2026 a la 1:59 a. m. (Panamá)**, es decir, el 5 oct a las 6:59 UTC.
 
-**Entregado el 4 de octubre de 2026 a las 9:51 a. m. (Panamá):** el [artículo en DEV](https://dev.to/arnulfo_07/sendero-helping-noris-prepare-each-childs-next-step-with-local-open-ai-4gl3) está publicado con la etiqueta obligatoria `#hf26challenge` y este repositorio es público. Confirmar las etapas con Noris y probar el recorrido con ella siguen pendientes; el artículo no se atribuye una reacción suya. Crear el proyecto local o guardar un borrador no constituye una entrega al concurso. El detalle está en el [estado de entrega](docs/entrega-reto.md).
+**Entregado el 4 de octubre de 2026 a las 9:51 a. m. (Panamá):** el [artículo en DEV](https://dev.to/arnulfo_07/sendero-helping-noris-prepare-each-childs-next-step-with-local-open-ai-4gl3) está publicado con la etiqueta obligatoria `#hf26challenge` y este repositorio es público. Confirmar las etapas con el equipo de catequesis y probar el recorrido con sus integrantes siguen pendientes; el artículo no les atribuye ninguna valoración. Crear el proyecto local o guardar un borrador no constituye una entrega al concurso. El detalle está en el [estado de entrega](docs/entrega-reto.md).
 
 Código asistido por IA. Licencia MIT; Flask y Ollama conservan sus licencias. Consulta [arquitectura y referencias](docs/arquitectura.md).
 
@@ -140,4 +140,4 @@ La [demo grabada](demo/README.md) usa datos ficticios. El [artículo preparado](
 
 ## Continuidad
 
-Sendero tiene una sola persona mantenedora y una sola usuaria prevista. La [evaluación de sostenibilidad](docs/sostenibilidad.md) enumera lo que falta para que el proyecto siga siendo útil después del reto y no dependa de una sola persona.
+Sendero tiene una sola persona mantenedora y un único equipo usuario previsto: el de catequesis de la capilla. La [evaluación de sostenibilidad](docs/sostenibilidad.md) enumera lo que falta para que el proyecto siga siendo útil después del reto y no dependa de una sola persona.
