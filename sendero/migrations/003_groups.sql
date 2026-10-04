@@ -1,0 +1,10 @@
+BEGIN IMMEDIATE;
+CREATE TABLE periods (id INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, starts TEXT NOT NULL, ends TEXT NOT NULL, CHECK(starts<=ends));
+CREATE TABLE groups (id INTEGER PRIMARY KEY, period_id INTEGER NOT NULL REFERENCES periods(id), name TEXT NOT NULL, UNIQUE(period_id,name));
+CREATE TABLE enrollments (id INTEGER PRIMARY KEY, child_id INTEGER NOT NULL REFERENCES children(id), group_id INTEGER NOT NULL REFERENCES groups(id), enrolled TEXT NOT NULL, UNIQUE(child_id,group_id));
+CREATE TABLE guardians (id INTEGER PRIMARY KEY, child_id INTEGER NOT NULL REFERENCES children(id), name TEXT NOT NULL, relationship TEXT NOT NULL DEFAULT '', contact TEXT NOT NULL DEFAULT '');
+INSERT INTO guardians(child_id,name,contact) SELECT id,guardian,contact FROM children WHERE guardian<>'';
+ALTER TABLE attendance ADD COLUMN enrollment_id INTEGER REFERENCES enrollments(id);
+ALTER TABLE plans ADD COLUMN reviewed_at TEXT;
+INSERT INTO schema_version VALUES (3);
+COMMIT;

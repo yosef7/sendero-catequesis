@@ -19,7 +19,7 @@ def data():
 @api.get('/state')
 def state():
     children = [s.detail(row['id']) for row in get_db().execute('SELECT id FROM children ORDER BY name COLLATE NOCASE')]
-    return jsonify(children=children, levels=s.levels(), today=s.today())
+    return jsonify(children=children, levels=s.levels(), today=s.today(), **s.organization())
 
 
 @api.post('/children')
@@ -149,9 +149,47 @@ def plan(child_id):
         return jsonify(error='No se pudo preparar la propuesta. Revisa Ollama y vuelve a intentarlo. No se guardaron cambios.'), 503
     db = get_db()
     with db:
+        db.execute('BEGIN IMMEDIATE')
+        s.active(child_id)
+        from .ai import evidence_for
+        if result['evidence'] != evidence_for(s.detail(child_id)):
+            raise s.ValidationError('El registro cambió durante la generación. Vuelve a intentarlo.')
         db.execute('INSERT INTO plans(child_id,level_id,model,evidence,content) VALUES (?,?,?,?,?)',
                    (child_id, result['evidence']['etapa_ordinal'], result['model'], json.dumps(result['evidence']),
                     json.dumps({k: result[k] for k in ('preparation', 'family_question', 'pending_numbers')})))
+    return jsonify(s.detail(child_id))
+
+
+@api.post('/periods')
+def periods():
+    return jsonify(s.create_period(data())),201
+
+
+@api.post('/groups')
+def groups():
+    return jsonify(s.create_group(data())),201
+
+
+@api.post('/children/<int:child_id>/enrollments')
+def enrollment(child_id):
+    body=data()
+    with get_db():
+        s.enroll(child_id,body.get('group_id'),body.get('enrolled'))
+    return jsonify(s.detail(child_id)),201
+
+
+@api.post('/children/<int:child_id>/plans/<int:plan_id>/review')
+def review_plan(child_id,plan_id):
+    db=get_db()
+    with db:
+        db.execute('BEGIN IMMEDIATE')
+        s.active(child_id)
+        plan=next((p for p in s.detail(child_id)['plans'] if p['id']==plan_id),None)
+        if not plan or plan['outdated']:
+            raise s.ValidationError('Genera una propuesta vigente antes de revisarla.')
+        if not plan['reviewed_at']:
+            db.execute('UPDATE plans SET reviewed_at=CURRENT_TIMESTAMP WHERE id=?',(plan_id,))
+            s.event(child_id,'Revisión IA','Noris revisó la propuesta de acompañamiento; no se modificaron requisitos ni etapas.')
     return jsonify(s.detail(child_id))
 
 

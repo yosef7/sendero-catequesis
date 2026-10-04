@@ -65,24 +65,9 @@ def generate_plan(record):
 
 
 def summarize(record):
-    evidence = {
-        'etapa_ordinal': record['level_id'],
-        'requisitos': [{'numero': i + 1, 'cumplido': bool(r['completed_at'])} for i, r in enumerate(record['requirements'])],
-        'clases_registradas': len(record['attendance']),
-        'asistencias': sum(r['present'] for r in record['attendance']),
-        'hay_siguiente_etapa': bool(record['next_level']),
-    }
-    payload = {'model': current_app.config['OLLAMA_MODEL'], 'stream': False,
-               'options': {'temperature': 0, 'num_predict': 200},
-               'messages': [
-                   {'role': 'system', 'content': 'Eres un asistente de seguimiento para una catequista. Los requisitos son del niño; la catequista los verifica, no los cumple ella. Responde en español en máximo 100 palabras. Resume SOLO las cantidades y estados del JSON. Cita requisitos por número. No inventes nombres, fechas, capacidades, normas religiosas ni porcentajes obligatorios. No apruebes cambios de etapa. Recomienda verificar los pendientes con la catequista. Si faltan datos, indícalo.'},
-                   {'role': 'user', 'content': json.dumps(evidence)}]}
-    request = Request('http://127.0.0.1:11434/api/chat', data=json.dumps(payload).encode(), headers={'Content-Type': 'application/json'})
-    try:
-        with urlopen(request, timeout=120) as response:
-            result = json.load(response)['message']['content']
-        if not isinstance(result, str) or not result.strip():
-            raise ValueError
-        return {'summary': result, 'model': payload['model'], 'evidence': evidence}
-    except (URLError, TimeoutError, ValueError, KeyError):
+    result = generate_plan(record)
+    if result is None:
         return None
+    facts=result['evidence']
+    return {**result, 'summary': f"{facts['asistencias']} de {facts['clases_registradas']} asistencias. "
+            + f"{len(result['pending_numbers'])} requisitos pendientes. " + ' '.join(result['preparation'])}

@@ -106,10 +106,16 @@ def test_ai_payload_excludes_personal_fields(client,monkeypatch):
     class FakeResponse:
         def __enter__(self): return self
         def __exit__(self,*args): pass
-        def read(self): return b'{"message":{"content":"Resumen de prueba"}}'
+        def __init__(self,payload): self.payload=payload
+        def read(self):
+            import json
+            fields=self.payload['format']['properties']
+            output={'preparation':fields['preparation']['items']['enum'][:2], 'family_question':fields['family_question']['enum'][0]}
+            return json.dumps({'message':{'content':json.dumps(output)}}).encode()
     def fake_urlopen(request,timeout):
         captured['payload']=request.data.decode()
-        return FakeResponse()
+        import json
+        return FakeResponse(json.loads(request.data))
     monkeypatch.setattr(ai,'urlopen',fake_urlopen)
     response=send(client,f'/children/{c["id"]}/summary',{})
     assert response.status_code==200
@@ -179,7 +185,7 @@ def test_migration_preserves_existing_ficha(tmp_path):
     create_app({'TESTING':True,'DATABASE':str(database)})
     with sqlite3.connect(database) as db:
         assert db.execute('SELECT name FROM children').fetchone()[0]=='Ficha anterior'
-        assert db.execute('SELECT MAX(version) FROM schema_version').fetchone()[0]==2
+        assert db.execute('SELECT MAX(version) FROM schema_version').fetchone()[0]==3
         assert db.execute('SELECT count(*) FROM plans').fetchone()[0]==0
 
 
@@ -200,3 +206,123 @@ def test_valid_catalog_response_is_accepted(client,monkeypatch):
     result=send(client,f'/children/{c["id"]}/plan',{})
     assert result.status_code==200
     assert len(result.json['plans'][0]['content']['preparation'])==2
+
+
+def make_group(client):
+    assert send(client,'/periods',{'name':'Período ficticio','starts':'2026-01-01','ends':'2026-12-31'}).status_code==201
+    p=client.get('/api/state').json['periods'][0]
+    response=send(client,'/groups',{'name':'Grupo de ejemplo','period_id':p['id']})
+    assert response.status_code==201
+    return response.json['groups'][0]
+
+
+def test_complete_group_workflow_and_backup(client,tmp_path):
+    group=make_group(client)
+    guardians=[{'name':'Ana Ejemplo','relationship':'Madre','contact':'555-0100'}, {'name':'Luis Ejemplo','relationship':'Padre','contact':'555-0101'}]
+    c=new_child(client,group_id=group['id'],guardians=guardians)
+    assert len(c['guardians'])==2
+    membership=c['enrollments'][0]
+    assert membership['period_name']=='Período ficticio'
+    result=send(client,f'/children/{c["id"]}/attendance',{'day':today(),'topic':'Tema ficticio','present':True,'enrollment_id':membership['id']})
+    assert result.status_code==200
+    assert result.json['attendance'][0]['enrollment_id']==membership['id']
+    assert any(e['kind']=='Inscripción' for e in result.json['events'])
+    backup=tmp_path/'groups.sqlite';backup.write_bytes(client.get('/api/backup').data)
+    with sqlite3.connect(backup) as db:
+        assert db.execute('PRAGMA integrity_check').fetchone()[0]=='ok'
+        assert db.execute('SELECT count(*) FROM guardians').fetchone()[0]==2
+        assert db.execute('SELECT count(*) FROM enrollments').fetchone()[0]==1
+
+
+def test_invalid_enrollment_rolls_back_entire_registration(client):
+    make_group(client)
+    result=send(client,'/children',{'name':'No guardar','joined':today(),'level_id':1,'group_id':999,'guardians':[{'name':'Prueba'}]})
+    assert result.status_code==422
+    assert client.get('/api/state').json['children']==[]
+    with sqlite3.connect(client.application.config['DATABASE']) as db:
+        assert db.execute('SELECT count(*) FROM guardians').fetchone()[0]==0
+        assert db.execute('SELECT count(*) FROM events').fetchone()[0]==0
+
+
+def test_period_group_dates_duplicates_and_foreign_membership(client):
+    assert send(client,'/periods',{'name':'Mal','starts':'2026-12-31','ends':'2026-01-01'}).status_code==422
+    group=make_group(client)
+    assert send(client,'/groups',{'name':group['name'],'period_id':group['period_id']}).status_code==422
+    c=new_child(client,group_id=group['id']);other=new_child(client)
+    assert send(client,f'/children/{c["id"]}/enrollments',{'group_id':group['id'],'enrolled':today()}).status_code==422
+    assert send(client,f'/children/{other["id"]}/attendance',{'day':today(),'topic':'Prueba','present':True,'enrollment_id':c['enrollments'][0]['id']}).status_code==422
+    assert send(client,f'/children/{other["id"]}/enrollments',{'group_id':group['id'],'enrolled':'2025-12-31'}).status_code==422
+
+
+def test_guardians_edit_and_invalid_data_preserve_records(client):
+    c=new_child(client)
+    assert c['guardians'][0]['name']==c['guardian']
+    edited=send(client,f'/children/{c["id"]}',{'name':c['name'],'joined':c['joined'],'guardians':[{'name':'Primera','contact':'uno'},{'name':'Segunda','contact':'dos'}]},'patch')
+    assert len(edited.json['guardians'])==2
+    invalid=send(client,f'/children/{c["id"]}',{'name':'No guardar','joined':c['joined'],'guardians':[{'name':''}]},'patch')
+    assert invalid.status_code==422
+    saved=client.get('/api/state').json['children'][0]
+    assert saved['name']==c['name'] and len(saved['guardians'])==2
+
+
+def test_plan_review_is_audited_and_stale_proposal_rejected(client,monkeypatch):
+    import sendero.routes as routes
+    from sendero.ai import evidence_for
+    c=new_child(client)
+    monkeypatch.setattr(routes,'generate_plan',lambda r:{'preparation':['Uno','Dos'],'family_question':'Pregunta','pending_numbers':[1],'model':'prueba','evidence':evidence_for(r)})
+    generated=send(client,f'/children/{c["id"]}/plan',{}).json
+    plan=generated['plans'][0]
+    path=f'/children/{c["id"]}/plans/{plan["id"]}/review'
+    reviewed=send(client,path,{})
+    assert reviewed.status_code==200 and reviewed.json['plans'][0]['reviewed_at']
+    assert reviewed.json['level_id']==c['level_id']
+    assert len(reviewed.json['all_requirements'])==0
+    assert len([e for e in reviewed.json['events'] if e['kind']=='Revisión IA'])==1
+    assert send(client,path,{}).status_code==200
+    req=c['requirements'][0]['id']
+    send(client,f'/children/{c["id"]}/requirements/{req}',{'completed':True},'put')
+    assert send(client,path,{}).status_code==422
+
+
+def test_migration_v2_preserves_guardian_attendance_and_plan(tmp_path):
+    from pathlib import Path
+    database=tmp_path/'version2.sqlite'
+    with sqlite3.connect(database) as db:
+        db.executescript(Path('sendero/schema.sql').read_text())
+        db.executescript(Path('sendero/migrations/002_plans.sql').read_text())
+        db.execute("INSERT INTO levels VALUES (1,'Etapa',1)")
+        db.execute("INSERT INTO children(name,guardian,contact,joined,level_id) VALUES ('Histórica','Responsable','Privado','2026-01-01',1)")
+        db.execute("INSERT INTO attendance VALUES (1,'2026-02-01','Tema anterior',1)")
+        db.execute("INSERT INTO plans(child_id,level_id,model,evidence,content) VALUES (1,1,'modelo','{}','{}')")
+    create_app({'TESTING':True,'DATABASE':str(database)})
+    create_app({'TESTING':True,'DATABASE':str(database)})
+    with sqlite3.connect(database) as db:
+        assert db.execute('PRAGMA integrity_check').fetchone()[0]=='ok'
+        assert db.execute('SELECT name,contact FROM guardians').fetchone()==('Responsable','Privado')
+        assert db.execute('SELECT topic,enrollment_id FROM attendance').fetchone()==('Tema anterior',None)
+        assert db.execute('SELECT count(*) FROM plans').fetchone()[0]==1
+        assert db.execute('SELECT count(*) FROM guardians').fetchone()[0]==1
+
+
+def test_attendance_cannot_precede_enrollment(client):
+    group=make_group(client)
+    c=new_child(client,joined='2026-01-01')
+    enrolled=send(client,f'/children/{c["id"]}/enrollments',{'group_id':group['id'],'enrolled':today()}).json
+    result=send(client,f'/children/{c["id"]}/attendance',{'day':'2026-01-02','topic':'No guardar','present':True,'enrollment_id':enrolled['enrollments'][0]['id']})
+    assert result.status_code==422
+    assert client.get('/api/state').json['children'][0]['attendance']==[]
+
+
+def test_inference_context_changed_during_generation_not_saved(client,monkeypatch):
+    import sendero.routes as routes
+    from sendero.ai import evidence_for
+    from sendero.db import get_db
+    c=new_child(client)
+    def changed(record):
+        snapshot=evidence_for(record)
+        with get_db() as db:
+            db.execute('INSERT INTO attendance(child_id,day,topic,present) VALUES (?,?,?,?)',(c['id'],today(),'Clase concurrente',1))
+        return {'preparation':['Uno','Dos'],'family_question':'Pregunta','pending_numbers':[1],'model':'prueba','evidence':snapshot}
+    monkeypatch.setattr(routes,'generate_plan',changed)
+    assert send(client,f'/children/{c["id"]}/plan',{}).status_code==422
+    assert client.get('/api/state').json['children'][0]['plans']==[]

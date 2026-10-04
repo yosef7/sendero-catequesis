@@ -4,3 +4,7 @@
 progress.progress{display:block;width:100%;appearance:none;border:0}progress::-webkit-progress-bar{background:#eaf0e6;border-radius:5px}progress::-webkit-progress-value{background:#7d9f70;border-radius:5px}progress::-moz-progress-bar{background:#7d9f70;border-radius:5px}
 
 .plan-facts{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}.plan-facts span{background:white;border-radius:7px;padding:8px 10px;font-size:12px}.plan-steps{padding-left:20px}.plan-steps li{padding:5px 0;line-height:1.6}.plan-history{margin-top:20px}.plan-history summary{cursor:pointer;font-size:12px}.old-plan{border-top:1px solid #cbd9c4;margin-top:15px;padding-top:10px}
+
+.toolbar{flex-wrap:wrap}.sidebar nav{flex-wrap:wrap}.form-grid details input{margin-bottom:10px}.form-grid summary{cursor:pointer;margin-bottom:12px}@media(max-width:740px){.toolbar select{max-width:100%;width:100%}.stage-title,.panel-head{flex-wrap:wrap;gap:12px}.page-heading,.panel,.child-card{overflow-wrap:anywhere}}
+
+.pill{white-space:nowrap;flex-shrink:0}
