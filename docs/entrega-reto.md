@@ -9,9 +9,10 @@ Ventana en Panamá: jueves 1 de octubre de 2026, 9:00 p. m., hasta lunes 5 de oc
 | Elemento | Estado | Cómo se verificó |
 | --- | --- | --- |
 | Pruebas | ✅ 26 aprobadas; `node --check` de los tres scripts y `git diff --check` sin errores | Ejecución local del 4 oct |
+| Entrega | ✅ **Publicada** el 4 oct a las 9:51 a. m. (14:51:26 UTC), dentro de la ventana: [artículo en DEV](https://dev.to/arnulfo_07/sendero-helping-noris-prepare-each-childs-next-step-with-local-open-ai-4gl3) | API pública de DEV (`published_at`) |
 | Ampliación v1 | ✅ Versionada y enviada el 4 oct a las 9:45 a. m.: `762acc3` (aplicación) y `8678396` (documentación, demo y validación) | `git log` y `git fetch` |
-| Repositorio remoto | ⏳ **Privado**; `origin/main` en `8678396`, con 5 commits | `gh repo view` y `git fetch` |
-| Artículo DEV 4793109 | ⏳ **Borrador** (`published: false`) con `devchallenge`, `weekendchallenge` y `hf26challenge`; texto igual a [`dev-submission.md`](dev-submission.md) | `get_my_articles` de DevRelay |
+| Repositorio remoto | ✅ **Público**; código, video, capturas y JSON enlazados en el artículo responden sin iniciar sesión | `gh repo view` y `curl` a cada enlace |
+| Artículo DEV 4793109 | ✅ Publicado con `devchallenge`, `weekendchallenge` y `hf26challenge`; texto igual a [`dev-submission.md`](dev-submission.md) | `get_article_by_path` de DevRelay |
 | Reto 78 | Abierto hasta el **lun 5 oct, 1:59 a. m. (Panamá)** | `get_challenge_details` de DevRelay |
 | Prueba con Noris | ⏳ Sin realizar | — |
 
@@ -42,7 +43,7 @@ Fuente: `full_details` del reto 78 en DevRelay.
 
 El repositorio [yosef7/sendero-catequesis](https://github.com/yosef7/sendero-catequesis) fue creado **privado** y sus dos commits iniciales se enviaron a `origin/main`: `259c12c` (aplicación) y `84ae89b` (demo y presentación). Después se envió `2c83b35`, que registra el repositorio privado y el borrador de DEV. La visibilidad privada y el MP4 remoto de 901.956 bytes se verificaron mediante GitHub.
 
-El artículo DEV **4793109** está guardado como borrador y se confirmó en la lista de artículos no publicados del usuario `arnulfo_07`, con las tres etiquetas requeridas. La asistencia de IA está declarada en el texto y se envió con el valor predeterminado `some_ai` de DevRelay. No se publicó.
+**Actualización del 4 oct, 9:51 a. m.:** el repositorio pasó a público y el artículo se publicó en <https://dev.to/arnulfo_07/sendero-helping-noris-prepare-each-childs-next-step-with-local-open-ai-4gl3>. Texto original del 3 oct: el artículo DEV **4793109** está guardado como borrador y se confirmó en la lista de artículos no publicados del usuario `arnulfo_07`, con las tres etiquetas requeridas. La asistencia de IA está declarada en el texto y se envió con el valor predeterminado `some_ai` de DevRelay. No se publicó.
 
 Los enlaces del artículo apuntan al destino previsto; sus enlaces al código y demo apuntan al destino previsto y quedarán accesibles públicamente al cambiar la visibilidad del repositorio. El cambio de visibilidad y la publicación del artículo se verifican antes de marcar la entrega completa.
 
@@ -55,10 +56,11 @@ Plazo: **antes del lun 5 oct, 1:59 a. m. (Panamá)**. Cada paso depende del ante
 - [x] Dejar fuera de los commits el PDF del Directorio y su transcripción (ver el aviso de [estado verificado](#estado-verificado--4-de-octubre)). `✅ 4 oct`
 - [x] Hacer commit de la ampliación v1 y enviarla a `origin/main`, con `demo/grupos.png` y `demo/validacion-v1.json`, que el artículo enlaza. `✅ 4 oct` (`8678396`)
 - [x] Revisar el artículo y el video preparados: cifras contrastadas con `demo/validacion-v1.json`, 26 pruebas aprobadas, video de 33,24 s idéntico al remoto. `✅ 4 oct`
-- [ ] Hacer público el repositorio y comprobar que el código, el video y las capturas abren sin iniciar sesión.
-- [ ] Publicar el artículo 4793109 con las tres etiquetas.
-- [ ] Confirmar desde DEV la URL pública, el estado publicado, la hora y las etiquetas.
-- [ ] Anotar la URL publicada en este archivo y en el libro de retos personales del repositorio Hacktoberfest (`docs/06-mlh/stickers-2026.md`), y comprobar después el sticker del Launch Weekend en [hacktoberfest.com/my](https://hacktoberfest.com/my).
+- [x] Hacer público el repositorio y comprobar que el código, el video y las capturas abren sin iniciar sesión. `✅ 4 oct`
+- [x] Publicar el artículo 4793109 con las tres etiquetas. `✅ 4 oct, 9:51 a. m.`
+- [x] Confirmar desde DEV la URL pública, el estado publicado, la hora y las etiquetas. `✅ 4 oct`
+- [x] Anotar la URL publicada en este archivo y en el libro de retos personales del repositorio Hacktoberfest (`docs/06-mlh/stickers-2026.md`). `✅ 4 oct`
+- [ ] Comprobar el sticker del Launch Weekend en [hacktoberfest.com/my](https://hacktoberfest.com/my).
 
 ## Actualización de la primera versión funcional · 3 de octubre
 
