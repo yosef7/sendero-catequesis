@@ -12,7 +12,7 @@ flowchart LR
 
 El recorrido se guarda en tablas normalizadas. Las transiciones validan los requisitos dentro de una transacción de escritura y comparan la etapa esperada para evitar avances duplicados por reenvío. Las correcciones de asistencia mantienen el estado actual en `attendance` y dejan eventos adicionales. No hay endpoints para borrar eventos: no implica inmutabilidad frente al dueño del archivo SQLite.
 
-SQLite con claves foráneas, WAL y conexiones por solicitud simplifica la operación local. El esquema inicial tiene versión 1 y la migración `002_plans.sql` añade propuestas de acompañamiento en la versión 2; futuras modificaciones requieren una migración nueva y validación de restauración, no cambios destructivos al script inicial. La API actual carga las fichas e historiales completos; paginación y consultas de resumen son trabajo previo a un volumen grande.
+SQLite con claves foráneas, WAL y conexiones por solicitud simplifica la operación local. El esquema inicial tiene versión 1 y la migración `002_plans.sql` añade propuestas de acompañamiento en la versión 2; la migración `003_groups.sql` añade períodos, grupos, inscripciones, responsables, asociación de asistencia y revisión humana (versión 3) dentro de una transacción; futuras modificaciones requieren una migración nueva y validación de restauración, no cambios destructivos al script inicial. La API actual carga las fichas e historiales completos; paginación y consultas de resumen son trabajo previo a un volumen grande.
 
 El acceso usa un código aleatorio privado persistido con permisos 0600, cookie HttpOnly/SameSite Strict, token CSRF, lista de hosts y sesión de ocho horas. El proceso se enlaza solamente a loopback. No hay usuarios individuales ni límite de intentos; no es un servicio listo para internet.
 
@@ -35,3 +35,19 @@ La búsqueda semántica de DevRelay devolvió pocos resultados relevantes para F
 Ambos artículos se leyeron con DevRelay. No tenían comentarios al consultarlos; son dos referencias, no un consenso de la comunidad.
 
 El generador final usa `enum` para acciones y preguntas: el modelo selecciona y prioriza dentro de un catálogo revisado. La primera prueba de redacción libre produjo referencias no sustentadas a clases y una pregunta con perspectiva incorrecta; por eso se restringió la salida. Se validan pertenencia al catálogo y ausencia de acciones duplicadas. El modelo puede elegir prioridades poco útiles incluso dentro de ese catálogo; Noris las revisa. No se oculta una lista determinista detrás de una generación simulada: una propuesta solo se guarda después de una respuesta real válida de Ollama.
+
+## Ampliación de la versión funcional
+
+`periods → groups → enrollments → children` conserva las inscripciones sin duplicar la ficha. `guardians` admite varios responsables; los campos originales se mantienen compatibles con clientes anteriores. Las clases conservan su clave participante/fecha y pueden asociarse a una inscripción validada. Las tablas y respaldo anteriores permanecen disponibles.
+
+La migración 3 copia al responsable previo y conserva asistencias sin grupo. Las pruebas recorren bases de versiones 1 y 2 y reinicialización idempotente. La inscripción inicial y creación de responsables están en la misma transacción: un grupo inválido revierte la ficha completa.
+
+Las propuestas tienen `reviewed_at`. La API comprueba que pertenezcan al participante y estén vigentes, y la revisión repetida no duplica eventos. Antes de guardar una inferencia, se vuelve a comprobar el estado en una transacción para rechazar un contexto que cambió mientras el modelo respondía.
+
+Referencias consultadas en esta ampliación:
+
+- [Salida estructurada oficial de Ollama](https://docs.ollama.com/capabilities/structured-outputs): JSON Schema en `format` y validación posterior. Se conservó un esquema pequeño y catálogo propio.
+- [Jangwook Kim: Ollama Structured Outputs in Practice](https://dev.to/jangwook_kim_e31e7291ad98/ollama-structured-outputs-in-practice-getting-type-safe-json-from-local-llms-with-pydantic-m38): experiencia práctica con esquemas y límites de modelos pequeños; sin comentarios al consultar. No se extrapolan sus tiempos al equipo de Noris.
+- [Jonathan: Your Local LLM Is Not as Private as You Think](https://dev.to/jfisher4002/your-local-llm-is-not-as-private-as-you-think-3ek7): operar localmente no elimina los riesgos del servidor y cargador de modelos. Sus comentarios refuerzan la diferencia entre loopback y un servicio compartido. Se conserva el enlace solo a loopback y se minimiza el contexto; no se declara una auditoría de Ollama.
+
+Son dos experiencias consultadas, no una muestra suficiente para inferir consenso.

@@ -1,0 +1,49 @@
+{
+  "javascript_errors": [],
+  "viewport_checks": [
+    {
+      "width": 390,
+      "view": "detail",
+      "horizontal_overflow": false
+    },
+    {
+      "width": 390,
+      "view": "groups",
+      "horizontal_overflow": false
+    },
+    {
+      "width": 390,
+      "view": "settings",
+      "horizontal_overflow": false
+    },
+    {
+      "width": 390,
+      "view": "children",
+      "horizontal_overflow": false
+    },
+    {
+      "width": 320,
+      "view": "detail",
+      "horizontal_overflow": false
+    },
+    {
+      "width": 320,
+      "view": "groups",
+      "horizontal_overflow": false
+    },
+    {
+      "width": 320,
+      "view": "settings",
+      "horizontal_overflow": false
+    },
+    {
+      "width": 320,
+      "view": "children",
+      "horizontal_overflow": false
+    }
+  ],
+  "real_ollama_seconds": 3.34,
+  "model": "qwen2.5-coder:3b",
+  "workflow": "login → período → grupo → participante y dos responsables → asistencia y tema → observación → IA → revisión → recarga → edición móvil",
+  "fictional_data": true
+}

@@ -1,27 +1,86 @@
 # Sendero · Registro de catequesis
 
-Una herramienta creada para **Noris Hernández**: registra el ingreso de los niños, su formación, los requisitos verificados y cada cambio de etapa. Interfaz en español, adaptable a teléfonos y computadoras, almacenamiento local e IA abierta mediante Ollama.
+Una herramienta creada para **Noris Hernández**: organiza períodos y grupos, registra participantes y responsables, su formación, los requisitos verificados y cada cambio de etapa. Interfaz en español, adaptable a teléfonos y computadoras, almacenamiento local e IA abierta mediante Ollama.
 
-## Empezar
+## Instalar e iniciar el proyecto
 
-Requisitos: Python 3.11 o superior y [uv](https://docs.astral.sh/uv/).
+Requisitos: Python 3.11 o superior y [uv](https://docs.astral.sh/uv/). Ollama es opcional para el registro y necesario para generar propuestas de IA.
+
+### 1. Abrir el proyecto e instalar las dependencias
+
+Si ya tienes el proyecto en este equipo:
 
 ```sh
+cd /Users/arnulforeyes/Documents/GitHub/sendero-catequesis
 uv sync
+```
+
+Para instalarlo en otro equipo con acceso al repositorio:
+
+```sh
+git clone https://github.com/yosef7/sendero-catequesis.git
+cd sendero-catequesis
+uv sync
+```
+
+Mientras el repositorio sea privado, clonarlo requiere acceso autorizado a GitHub. `uv sync` prepara el entorno virtual y las dependencias; no hace falta activar `.venv` para los comandos siguientes.
+
+### 2. Iniciar Sendero
+
+Desde la carpeta del proyecto:
+
+```sh
+uv run python -m sendero
+```
+
+Deja esa terminal abierta y visita **http://127.0.0.1:5081**. El primer inicio crea la base local, las etapas de ejemplo y el código privado de acceso. Los siguientes inicios conservan los registros y aplican las migraciones pendientes.
+
+### 3. Consultar el código de acceso
+
+En otra terminal, desde la misma carpeta:
+
+```sh
+cat instance/access-code
+```
+
+Copia el código en la pantalla de acceso. No compartas el archivo ni incluyas su contenido en capturas públicas.
+
+### 4. Detener y volver a iniciar
+
+Pulsa **Ctrl+C** en la terminal donde corre Sendero. Para volver a abrirlo, ejecuta otra vez `uv run python -m sendero`; los datos permanecen en `instance/`.
+
+Si el puerto 5081 ya está ocupado, detén la instancia anterior o utiliza otro:
+
+```sh
+uv run python -m sendero --port 5084
+```
+
+En ese caso abre **http://127.0.0.1:5084**. El servidor escucha únicamente en este equipo; esa dirección no permite acceder desde un teléfono distinto.
+
+### Probar con datos ficticios
+
+Para añadir tres fichas de ejemplo a una base vacía:
+
+```sh
 uv run python -m sendero --demo
 ```
 
-Abre **http://127.0.0.1:5081**. Consulta el código privado de acceso en `instance/access-code` dentro de este proyecto. No compartas ese archivo. `--demo` añade tres fichas ficticias solamente si el registro está vacío; omite esa opción para comenzar sin niños.
+`--demo` utiliza la base habitual y solo añade fichas si no hay participantes. Para probar en una base separada, consulta las instrucciones de la [demo aislada](demo/README.md).
 
 La primera vez, revisa **Etapas y requisitos**: los niveles iniciales son ejemplos, no normas de catequesis confirmadas. Puedes cambiar sus nombres, editar requisitos todavía no verificados, añadir requisitos y añadir etapas al final. Los requisitos ya verificados conservan su texto. El avance requiere todos los requisitos de la etapa actual y confirmación humana. Los nombres de los requisitos se conservan en el registro; el modelo solamente recibe sus números y estados.
 
 ## Uso diario
 
-1. Registra el nombre del niño, fecha de ingreso y etapa. Responsable y contacto son opcionales.
-2. Abre su ficha y registra clases, asistencias y observaciones.
-3. Verifica los requisitos. El historial guarda verificaciones, correcciones y cambios.
-4. Confirma el avance cuando corresponda; no se decide mediante IA.
-5. Descarga un respaldo periódicamente. Archivar una ficha conserva su historia y permite reactivarla.
+1. Accede con el código privado de Noris.
+2. En **Períodos y grupos**, crea el período con inicio y cierre y añade sus grupos.
+3. En **Niños y formación**, registra el participante, fecha de ingreso, etapa, grupo y hasta cinco responsables con vínculo y contacto. Los contactos son opcionales.
+4. Abre la ficha y registra asistencia, tema y observaciones. Selecciona la inscripción para asociar la clase a su grupo y período.
+5. Consulta las inscripciones e historia en la ficha; filtra el listado por grupo. Una ficha puede conservar inscripciones en varios períodos sin duplicar al participante.
+6. Pulsa **Preparar acompañamiento** para obtener un resumen de cantidades, pendientes y acciones sugeridas. Noris puede **Marcar como revisada** una propuesta vigente; la revisión queda en el historial.
+7. Verifica los requisitos y confirma el avance cuando corresponda.
+8. Descarga un respaldo periódicamente. Archivar una ficha conserva su historia y permite reactivarla.
+
+Consulta los [requisitos y criterios de aceptación](docs/requisitos-v1.md). Las fichas anteriores se conservan sin grupo; usa **Inscribir en otro grupo** para vincularlas a un período con la fecha de inscripción correspondiente. Las migraciones también conservan el responsable original, las clases y propuestas anteriores.
 
 Una clase por niño y fecha; registrar de nuevo esa fecha corrige asistencia/tema y añade otro evento al historial. La fecha de ingreso no cambia desde el formulario de edición. La impresión incluye el recorrido y los datos de contacto: guarda el documento en un lugar privado.
 
@@ -34,6 +93,8 @@ OLLAMA_MODEL=llama3:latest uv run python -m sendero
 ```
 
 En la ficha pulsa **Preparar acompañamiento**. La IA elige y ordena dos o tres acciones de un catálogo revisado y selecciona una pregunta para conversar con el responsable, según los estados de los requisitos y la asistencia. No inventa libremente texto ni requisitos: el esquema restringe los valores y el servidor comprueba que pertenezcan al catálogo. Se guarda localmente con el modelo y el contexto numérico; si cambian los requisitos, las asistencias o la etapa, se marca como desactualizada. Puedes generar una nueva. El adaptador llama a `http://127.0.0.1:11434/api/chat` y transmite únicamente números de requisitos, estados, cantidad de clases y asistencias. No transmite nombres, responsables, contactos, temas ni observaciones. El modelo puede equivocarse: contrasta su texto con la lista de requisitos. La propuesta queda guardada sin modificar requisitos ni etapas. Puedes consultar las cinco propuestas más recientes. Sin Ollama, la aplicación mantiene todas sus funciones de registro y muestra un error claro al solicitar IA.
+
+El resumen de asistencias y requisitos y los números pendientes se calculan a partir del registro; el modelo selecciona y prioriza las acciones y la pregunta. La revisión humana se guarda con fecha, sin modificar formación. El endpoint de resumen también valida el catálogo. La integración sigue el [contrato de salida estructurada de Ollama](https://docs.ollama.com/capabilities/structured-outputs).
 
 La IA abierta interviene en la preparación del seguimiento, sin depender de una API comercial ni enviar los registros a un servicio remoto. La licencia del modelo es independiente de la licencia del proyecto: [Qwen2.5-Coder-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-Coder-3B-Instruct) utiliza `qwen-research`. Revisa también los términos al cambiar de modelo.
 
@@ -53,7 +114,7 @@ Esta versión está pensada para una catequista en un equipo. La separación per
 
 La base y los secretos viven en `instance/`, excluida de Git. El archivo SQLite no está cifrado: usa una cuenta de equipo privada, bloqueo de pantalla y cifrado del disco. La app no incluye gestión de consentimiento, adjuntos, borrado definitivo ni política de retención; deben definirse antes de usar registros reales de menores. Usa datos ficticios en cualquier demo pública.
 
-**Descargar respaldo** crea una copia consistente SQLite, incluyendo fichas, requisitos, asistencias e historial. Para restaurar: detén Sendero, conserva la base actual, mueve sus archivos `.sqlite`, `-wal` y `-shm` fuera de `instance/`, copia el respaldo como `instance/sendero.sqlite` y vuelve a iniciar. No reemplaces una base mientras el servidor esté abierto.
+**Descargar respaldo** crea una copia consistente SQLite, incluyendo períodos, grupos, inscripciones, responsables, fichas, requisitos, asistencias, propuestas, revisiones e historial. Para restaurar: detén Sendero, conserva la base actual, mueve sus archivos `.sqlite`, `-wal` y `-shm` fuera de `instance/`, copia el respaldo como `instance/sendero.sqlite` y vuelve a iniciar. No reemplaces una base mientras el servidor esté abierto.
 
 ## Verificación
 
