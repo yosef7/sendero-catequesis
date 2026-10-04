@@ -128,12 +128,16 @@ git diff --check
 
 ## Reto DEV
 
-Proyecto nuevo para [Hacktoberfest Weekend Challenge: Build for a Friend](https://dev.to/challenges/hacktoberfest-weekend-2026-10-01).
+Proyecto nuevo para [Hacktoberfest Weekend Challenge: Build for a Friend](https://dev.to/challenges/hacktoberfest-weekend-2026-10-01) (reto 78 de DEV). La entrega cierra el **lunes 5 de octubre de 2026 a la 1:59 a. m. (Panamá)**, es decir, el 5 oct a las 6:59 UTC.
 
-Antes de enviar: confirmar niveles con Noris, probar el recorrido con ella, grabar una demo con datos ficticios, publicar el repositorio y redactar el artículo en inglés usando la plantilla oficial. Crear el proyecto local no constituye una entrega al concurso.
+Estado al 4 de octubre: la demo con datos ficticios está grabada y el artículo en inglés está guardado como **borrador** en DEV con la etiqueta obligatoria `#hf26challenge`. La ampliación v1 ya está en `origin/main`; faltan hacer público el repositorio y publicar el artículo antes del cierre. Confirmar las etapas con Noris y probar el recorrido con ella siguen pendientes; el artículo no se atribuye una reacción suya. Crear el proyecto local o guardar un borrador no constituye una entrega al concurso. El detalle está en el [estado de entrega](docs/entrega-reto.md).
 
 Código asistido por IA. Licencia MIT; Flask y Ollama conservan sus licencias. Consulta [arquitectura y referencias](docs/arquitectura.md).
 
 ## Material para la presentación
 
 La [demo grabada](demo/README.md) usa datos ficticios. El [artículo preparado](docs/dev-submission.md) y el [estado de entrega](docs/entrega-reto.md) distinguen la preparación de la publicación efectiva.
+
+## Continuidad
+
+Sendero tiene una sola persona mantenedora y una sola usuaria prevista. La [evaluación de sostenibilidad](docs/sostenibilidad.md) enumera lo que falta para que el proyecto siga siendo útil después del reto y no dependa de una sola persona.

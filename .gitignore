@@ -6,3 +6,6 @@ __pycache__/
 *.sqlite*
 artifacts/
 .DS_Store
+
+# Obra con derechos de autor: no publicar
+docs/DIRECTORIO-PARA-LA-CATEQUESIS-2022.*
