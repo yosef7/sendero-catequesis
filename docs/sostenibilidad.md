@@ -6,7 +6,7 @@ Evaluación de la continuidad de Sendero según dos dimensiones: **técnica** (�
 
 1. **Datos de menores sin procedimiento de consentimiento ni retención.** Es el bloqueo para usar Sendero con registros reales. La app no gestiona consentimiento, borrado definitivo ni retención, y la base SQLite no está cifrada. Mientras no exista ese procedimiento, Sendero solo debe usarse con datos ficticios.
 2. **Una sola persona lo sabe todo.** Hay un autor (5 commits de José Arnulfo R. H.), una cuenta con acceso al repositorio (`yosef7`) y una base con su código de acceso en un único equipo. Si esa persona no está disponible, el equipo de catequesis no tiene cómo instalar, actualizar ni restaurar Sendero.
-3. **La continuidad no depende del reto, sino de la comunidad.** Las rondas siguientes de DEV exigen proyectos nuevos, así que el reto no le da a Sendero una fecha de continuidad. Sin una prueba de aceptación con el equipo de catequesis, nada garantiza que el proyecto se use después del 5 oct.
+3. **La continuidad no depende del reto, sino de la comunidad.** Las rondas siguientes de DEV exigen proyectos nuevos, así que el reto no le da a Sendero una fecha de continuidad. La primera prueba con el equipo de catequesis (dom 4 oct) fue bien recibida, pero sin una aceptación formal nada garantiza que el proyecto se use después del 5 oct.
 
 ## Dimensión técnica
 
@@ -32,7 +32,7 @@ Evaluación de la continuidad de Sendero según dos dimensiones: **técnica** (�
 | --- | --- | --- |
 | Persona que dijo «yo le sigo» | ⚠️ Implícito | El autor mantiene el proyecto, pero no hay un compromiso escrito para después del 5 oct. Siguiente paso: anotar aquí quién lo mantiene y hasta cuándo |
 | Comunidad usuaria real | ✅ | El equipo de catequesis de la Capilla Nuestra Señora de Lourdes, en Valle de Urraca, San Miguelito. El problema existe fuera del reto: llevar el registro de formación de cada niño |
-| Aceptación de la comunidad | ❌ | No se ha probado con el equipo de catequesis ni se han confirmado sus etapas. Siguiente paso: sesión con el equipo para revisar etapas y requisitos y recorrer el flujo diario |
+| Aceptación de la comunidad | ⚠️ Parcial | Dom 4 oct: una catequista y la coordinadora probaron el registro; valoraron el acceso y el seguimiento y pidieron formación automática ([validación](validacion.md#prueba-con-el-equipo-de-catequesis--4-de-octubre)). Siguiente paso: confirmar con ellas las etapas y los requisitos reales y decidir cómo se completa la formación |
 | Corre fuera del entorno del reto | ✅ | Funciona sin internet una vez descargados el modelo y las dependencias; no usa servicios de pago ni créditos que venzan |
 | Respaldo | ⚠️ Parcial | Existe **Descargar respaldo**, pero es manual y no hay un lugar acordado para guardar las copias. Siguiente paso: acordar con el equipo de catequesis la frecuencia y el destino del respaldo |
 | Siguiente paso fijado tras el reto | ❌ | Ninguno con fecha. Siguiente paso: fijar la sesión con el equipo de catequesis y decidir si Sendero pasa a uso real o queda como prototipo documentado |

@@ -35,3 +35,17 @@ Esto demuestra la ejecución local y el material preparado; el artículo publica
 - Evidencia resumida versionable: `demo/validacion-v1.json`; script reproducible: `scripts/verify_browser.py` sobre una demo vacía. Logs y bases se mantienen fuera de Git.
 
 Esto verifica escritorio y tamaños móviles en navegador, no un teléfono físico ni la aceptación del equipo de catequesis. Las pruebas usaron una base ficticia separada; nunca la base de uso real.
+
+## Prueba con el equipo de catequesis · 4 de octubre
+
+El **domingo 4 de octubre en la mañana**, el mismo día en que se publicó el artículo, una catequista y la coordinadora de catequesis probaron la versión con períodos, grupos y responsables. Fue la primera prueba con personas del equipo usuario. No hubo fotos ni se guardó registro de la sesión.
+
+| Punto | Resultado |
+| --- | --- |
+| Qué hicieron | Crearon el período y los registros de participantes |
+| Qué valoraron | La **facilidad de acceso** y el **seguimiento** de cada participante |
+| Qué pidieron | **Que los detalles de la formación se completen solos**, en lugar de escribirlos ellas |
+
+El pedido de formación automática es la principal línea de trabajo que sale de la prueba. Una opción es ofrecer los temas de cada etapa como una lista para elegir, en lugar de texto libre.
+
+Esta prueba no confirma las etapas y los requisitos reales ni es una aceptación formal del equipo de catequesis.

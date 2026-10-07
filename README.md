@@ -123,7 +123,7 @@ git diff --check
 
 Sendero se creó para el [Hacktoberfest Weekend Challenge: Build for a Friend](https://dev.to/challenges/hacktoberfest-weekend-2026-10-01) de DEV.
 
-El [artículo en DEV](https://dev.to/arnulfo_07/sendero-helping-noris-prepare-each-childs-next-step-with-local-open-ai-4gl3) explica el proyecto y sus decisiones de diseño. Confirmar las etapas con el equipo de catequesis y probar el recorrido con sus integrantes siguen pendientes.
+El [artículo en DEV](https://dev.to/arnulfo_07/sendero-helping-noris-prepare-each-childs-next-step-with-local-open-ai-4gl3) explica el proyecto y sus decisiones de diseño. El dom 4 oct, una catequista y la coordinadora de catequesis hicieron la primera prueba: valoraron la facilidad de acceso y el seguimiento, y pidieron que los detalles de la formación se completen solos ([validación](docs/validacion.md#prueba-con-el-equipo-de-catequesis--4-de-octubre)). Confirmar las etapas y los requisitos reales sigue pendiente.
 
 Código asistido por IA. Licencia MIT; Flask y Ollama conservan sus licencias. Consulta [arquitectura y referencias](docs/arquitectura.md).
 
